@@ -10,44 +10,69 @@ PYTHON_INTERPRETER = python
 # COMMANDS                                                                      #
 #################################################################################
 
+.PHONY: requirements clean lint format create_environment data test profile features pipeline
 
 ## Install Python Dependencies
-.PHONY: requirements
 requirements:
-	conda env update --name $(PROJECT_NAME) --file environment.yml --prune
+	$(PYTHON_INTERPRETER) -m pip install -U pip
+	$(PYTHON_INTERPRETER) -m pip install -r requirements.txt
 	
 
-
-
 ## Delete all compiled Python files
-.PHONY: clean
 clean:
 	find . -type f -name "*.py[co]" -delete
 	find . -type d -name "__pycache__" -delete
+	rm -rf data/interim/*
+	rm -rf data/processed/*
+	rm -rf models/*
+	rm -rf reports/figures/*
+	rm -rf logs/*
+
 
 ## Lint using flake8 and black (use `make format` to do formatting)
-.PHONY: lint
 lint:
-	flake8 cfa
-	isort --check --diff --profile black cfa
-	black --check --config pyproject.toml cfa
+	flake8 ecommerce_pipeline tests
+	isort --check --diff --profile black ecommerce_pipeline
+	black --check --config pyproject.toml ecommerce_pipeline
+
 
 ## Format source code with black
-.PHONY: format
 format:
-	black --config pyproject.toml cfa
-
-
+	black --config pyproject.toml ecommerce_pipeline
 
 
 ## Set up python interpreter environment
-.PHONY: create_environment
 create_environment:
-	conda env create --name $(PROJECT_NAME) -f environment.yml
+	
+	conda create --name $(PROJECT_NAME) python=$(PYTHON_VERSION) -y
 	
 	@echo ">>> conda env created. Activate with:\nconda activate $(PROJECT_NAME)"
-	
 
+
+# Generate data
+data:
+	python -c "from cfa.dataset import generate_contract_data; generate_contract_data()"
+
+
+# Run data profiling
+profile:
+	python -m ecommerce_pipeline.profiling
+
+
+
+# Run tests
+test:
+	pytest tests/
+
+
+# Generate features
+features:
+	python -m ecommerce_pipeline.features
+
+
+# Run end-to-end pipeline
+pipeline:
+	python -m ecommerce_pipeline.pipeline
 
 
 #################################################################################
