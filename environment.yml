@@ -1,9 +1,10 @@
-name: contract_financial_analysis
+name: cfa
 channels:
   - conda-forge
 dependencies:
   - python=3.13
   - black
+  - faker
   - flake8
   - isort
   - pip
