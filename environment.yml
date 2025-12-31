@@ -2,7 +2,7 @@ name: cfa
 channels:
   - conda-forge
 dependencies:
-  - python=3.13
+  - python=3.11  # Databricks compatible version
   - black
   - faker
   - flake8
@@ -15,7 +15,14 @@ dependencies:
   - numpy
   - pandas
   - scikit-learn
+  - prophet
+  - statsmodels
+  - pyod
+  - pyspark=3.5
+  - delta-spark
   - pip:
     - python-dotenv
     - mkdocs
+    - mlflow
+    - databricks-sdk
     - -e .
