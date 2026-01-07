@@ -16,12 +16,12 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = os.path.join(PROJECT_ROOT, "data", "raw")
 
 # Configuration
-NUM_CONTRACTS = 500  # Number of contracts
-NUM_VENDORS = 200  # Number of vendors
-NUM_PROJECTS = 50  # Number of projects
+NUM_CONTRACTS = 250  # Number of contracts
+NUM_VENDORS = 100  # Number of vendors
+NUM_PROJECTS = 500  # Number of projects
 NUM_TRANSACTIONS = 50000  # Number of financial transactions
 NUM_MODIFICATIONS = 2000  # Number of contract modifications
-NUM_DELIVERABLES = 5000  # Number of contract deliverables
+NUM_DELIVERABLES = 125000  # Number of contract deliverables
 
 # File paths
 CONTRACTS_FILE = os.path.join(DATA_DIR, "contracts.csv")
